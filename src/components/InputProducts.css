@@ -1,0 +1,220 @@
+.input__products {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  padding: 20px;
+}
+.input__products > form > p {
+  margin-bottom: -20px;
+}
+.input__products form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+}
+.input__products form input {
+  width: 90%;
+  height: 3rem;
+  border: none;
+  border-radius: 5px;
+  padding: 0 1rem;
+  font-size: 1.2rem;
+  outline: none;
+  background-color: lightgray;
+  color: black;
+}
+.input__products form textarea {
+  width: 90%;
+  border: none;
+  border-radius: 5px;
+  padding: 0 1rem;
+  font-size: 1.2rem;
+  outline: none;
+  background-color: lightgray;
+  color: black;
+}
+.input__products form select {
+  width: 100%;
+  height: auto;
+  border: none;
+  border-radius: 5px;
+  padding: 0 1rem;
+  font-size: 1.2rem;
+  outline: none;
+  background-color: lightgray;
+  color: black;
+}
+.input__products form button {
+  width: 100%;
+  height: 3rem;
+  border: none;
+  border-radius: 5px;
+  padding: 0 1rem;
+  font-size: 1.2rem;
+  outline: none;
+  background-color: #ba704f;
+  color: #fff;
+  cursor: pointer;
+}
+.entered__details > h3 {
+  align-self: center;
+  margin-bottom: 30px;
+}
+.entered__details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.entered__details p {
+  text-align: left;
+}
+.file__names {
+  margin-top: 20px;
+}
+.image__preview {
+  margin-top: 20px;
+}
+.preview__image {
+  margin-left: 5px;
+  width: 100px;
+}
+.image__preview video {
+  margin-top: 20px;
+}
+.delete__product {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+.delete__product__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+.delete__product__container > input {
+  width: 100%;
+  height: 3rem;
+  border: none;
+  border-radius: 5px;
+  padding: 0 1rem;
+  font-size: 1.2rem;
+  outline: none;
+  background-color: lightgray;
+  color: black;
+}
+.delete__product__container > button {
+  width: 50%;
+  height: 3rem;
+  border: none;
+  border-radius: 5px;
+  padding: 0 1rem;
+  font-size: 1rem;
+  outline: none;
+  background-color: #ba704f;
+  color: #fff;
+  cursor: pointer;
+}
+.edit__product__status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 100px;
+}
+.edit__product__status__container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2rem;
+}
+.edit__product__productName {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+.edit__product__productName > input {
+  width: 100%;
+  height: 3rem;
+  border: none;
+  border-radius: 5px;
+  padding: 0 1rem;
+  font-size: 1.2rem;
+  outline: none;
+  background-color: lightgray;
+  color: black;
+}
+.edit__status__container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-top: -20px;
+}
+.edit__product__status__container > button {
+  width: 100%;
+  height: 3rem;
+  border: none;
+  border-radius: 5px;
+  padding: 0 1rem;
+  font-size: 1rem;
+  outline: none;
+  background-color: #ba704f;
+  color: #fff;
+  cursor: pointer;
+}
+.edit__product__status__container > button:hover {
+  background-color: #a34920;
+  color: #fff;
+}
+.delete__product__container > button:hover {
+  background-color: #a34920;
+  color: #fff;
+}
+@media (min-width: 200px) and (max-width: 480px) {
+  .input__products {
+    padding: 10px;
+  }
+  .input__products form p {
+    margin-bottom: 0;
+  }
+  .input__products form {
+    gap: 0.5rem;
+  }
+  .input__products form input {
+    height: 40px;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .input__products form textarea {
+    font-size: 15px;
+    padding: 10px;
+  }
+  .input__products form select {
+    font-size: 15px;
+    padding: 10px;
+    width: 100%;
+  }
+  .input__products form button {
+    height: 60px;
+    font-size: 18px;
+    margin-top: 50px;
+  }
+  .delete__product__container {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .edit__product__status__container {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+}
