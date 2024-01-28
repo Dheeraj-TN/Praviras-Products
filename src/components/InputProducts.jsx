@@ -33,7 +33,7 @@ function InputProducts() {
   const necklaceRef = collection(db, "Necklases");
   const earringRef = collection(db, "Earrings");
   const braceletRef = collection(db, "Bracelet");
-  const ringRef = collection(db, "Ring");
+  const clipsPinsRef = collection(db, "ClipsPins");
   const handleSelectChange = (e) => {
     setCategory(e.target.value);
   };
@@ -94,7 +94,7 @@ function InputProducts() {
       return;
     }
     if (deleteProduct.includes("Ring")) {
-      const q = query(ringRef, where("productName", "==", deleteProduct));
+      const q = query(clipsPinsRef, where("productName", "==", deleteProduct));
       const data = getDocs(q);
       //console.log("data: ", data);
       await data.then((snapshot) => {
@@ -272,7 +272,7 @@ function InputProducts() {
             <option value="Necklases">Necklases</option>
             <option value="Earrings">Earrings</option>
             <option value="Bracelet">Bracelet</option>
-            <option value="Ring">Ring</option>
+            <option value="ClipsPins">ClipsPins</option>
           </select>
           <p>Status of the stock</p>
           <input
