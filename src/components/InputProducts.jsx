@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { db, storage } from "../firebase";
 import {
@@ -5,6 +6,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  onSnapshot,
   query,
   setDoc,
   updateDoc,
@@ -21,8 +23,8 @@ function InputProducts() {
   const [videoFileName, setVideoFileName] = useState("");
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState("");
-  const [rating, setRating] = useState("");
-  const [desc, setDesc] = useState("");
+  // const [rating, setRating] = useState("");
+  // const [desc, setDesc] = useState("");
   const [completeDesc, setCompleteDesc] = useState("");
   const [status, setStatus] = useState("");
   const [editStatus, setEditStatus] = useState("Available");
@@ -30,6 +32,7 @@ function InputProducts() {
   const [category, setCategory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [deleteProduct, setDeleteProduct] = useState("");
+  const [deleteProductList, setDeleteProductList] = useState([]);
   const necklaceRef = collection(db, "Necklases");
   const earringRef = collection(db, "Earrings");
   const braceletRef = collection(db, "Bracelet");
@@ -54,55 +57,50 @@ function InputProducts() {
   const handleDeleteProduct = async () => {
     if (!deleteProduct) return;
     console.log("delete is clicked");
-    if (deleteProduct.includes("Necklace") || deleteProduct.includes("Chain")) {
-      const q = query(necklaceRef, where("productName", "==", deleteProduct));
-      const data = getDocs(q);
-      //console.log("data: ", data);
-      await data.then((snapshot) => {
-        snapshot.forEach((doc) => {
-          deleteDoc(doc.ref);
-          toast.success("Product Deleted successfully");
-          console.log("Product deleted from db");
-        });
+    console.log("product name: ", deleteProduct);
+    if (
+      deleteProduct.includes("Necklace".toLowerCase()) ||
+      deleteProduct.includes("Chain".toLowerCase())
+    ) {
+      const q = query(necklaceRef);
+      const splitProductName = deleteProduct.split(" ")[0];
+      onSnapshot(q, (snapshot) => {
+        const data = snapshot.docs
+          .map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+          .filter((item) => item.productName.includes(splitProductName));
+        setDeleteProductList(data);
       });
       return;
     }
-    if (deleteProduct.includes("Earrings")) {
-      const q = query(earringRef, where("productName", "==", deleteProduct));
-      const data = getDocs(q);
-      //console.log("data: ", data);
-      await data.then((snapshot) => {
-        snapshot.forEach((doc) => {
-          deleteDoc(doc.ref);
-          toast.success("Product Deleted successfully");
-          console.log("Product deleted from db");
-        });
+    if (deleteProduct.includes("Earring".toLowerCase())) {
+      const q = query(earringRef);
+      const splitProductName = deleteProduct.split(" ")[0];
+      onSnapshot(q, (snapshot) => {
+        const data = snapshot.docs
+          .map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+          .filter((item) => item.productName.includes(splitProductName));
+        setDeleteProductList(data);
       });
       return;
     }
-    if (deleteProduct.includes("Bracelet")) {
-      const q = query(braceletRef, where("productName", "==", deleteProduct));
-      const data = getDocs(q);
-      //console.log("data: ", data);
-      await data.then((snapshot) => {
-        snapshot.forEach((doc) => {
-          deleteDoc(doc.ref);
-          toast.success("Product Deleted successfully");
-          console.log("Product deleted from db");
-        });
-      });
-      return;
-    }
-    if (deleteProduct.includes("Ring")) {
-      const q = query(clipsPinsRef, where("productName", "==", deleteProduct));
-      const data = getDocs(q);
-      //console.log("data: ", data);
-      await data.then((snapshot) => {
-        snapshot.forEach((doc) => {
-          deleteDoc(doc.ref);
-          toast.success("Product Deleted successfully");
-          console.log("Product deleted from db");
-        });
+
+    if (deleteProduct.includes("Bracelet".toLowerCase())) {
+      const q = query(braceletRef);
+      const splitProductName = deleteProduct.split(" ")[0];
+      onSnapshot(q, (snapshot) => {
+        const data = snapshot.docs
+          .map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+          .filter((item) => item.productName.includes(splitProductName));
+        setDeleteProductList(data);
       });
       return;
     }
@@ -198,15 +196,20 @@ function InputProducts() {
         video: videoDownloadURL,
         productName: productName,
         price: price,
-        rating: rating,
-        desc: desc,
+        // rating: rating,
+        // desc: desc,
         completeDesc: completeDesc,
         status: status,
         category: category,
         uniqueId: uniqueId,
+        timestamp: new Date(),
       });
       await setDoc(doc(db, "Products", uniqueId), {
         productType: category,
+        productName: productName,
+        price: price,
+        uniqueId: uniqueId,
+        timestamp: new Date(),
       });
       setLoading(false);
       toast.success("Uploaded successfully");
@@ -216,14 +219,63 @@ function InputProducts() {
       setVideoFileName("");
       setProductName("");
       setPrice("");
-      setRating("");
-      setDesc("");
+      // setRating("");
+      // setDesc("");
       setStatus("");
       setCompleteDesc("");
       setCategory([]);
       setVideoFileName("");
       setImgfileNames("");
     }
+  };
+  const deleteItem = (id) => {
+    if (deleteProduct.includes("Bracelet")) {
+      const q = query(braceletRef, where("uniqueId", "==", id));
+      const data = getDocs(q);
+      data.then((snapshot) => {
+        snapshot.forEach((doc) => {
+          console.log(doc.ref);
+          deleteDoc(doc.ref);
+          toast.success("Product Deleted successfully");
+          console.log("Product deleted from db");
+        });
+      });
+    }
+    if (deleteProduct.includes("Necklace") || deleteProduct.includes("Chain")) {
+      const q = query(necklaceRef, where("uniqueId", "==", id));
+      const data = getDocs(q);
+      data.then((snapshot) => {
+        snapshot.forEach((doc) => {
+          console.log(doc.ref);
+          deleteDoc(doc.ref);
+          toast.success("Product Deleted successfully");
+          console.log("Product deleted from db");
+        });
+      });
+    }
+    if (deleteProduct.includes("Earrings")) {
+      const q = query(earringRef, where("uniqueId", "==", id));
+      const data = getDocs(q);
+      data.then((snapshot) => {
+        snapshot.forEach((doc) => {
+          console.log(doc.ref);
+          deleteDoc(doc.ref);
+          toast.success("Product Deleted successfully");
+          console.log("Product deleted from db");
+        });
+      });
+    }
+
+    const q2 = query(collection(db, "Products"), where("uniqueId", "==", id));
+    const data2 = getDocs(q2);
+    data2.then((snapshot) => {
+      snapshot.forEach((doc) => {
+        console.log(doc.ref);
+        deleteDoc(doc.ref);
+        toast.success("Product Deleted successfully");
+        console.log("Product deleted from product db");
+      });
+    });
   };
   return (
     <>
@@ -245,20 +297,20 @@ function InputProducts() {
             onChange={(e) => setPrice(e.target.value)}
             placeholder="enter price"
           />
-          <p>Enter rating</p>
+          {/* <p>Enter rating</p>
           <input
             type="text"
             value={rating}
             onChange={(e) => setRating(e.target.value)}
             placeholder="enter rating"
-          />
-          <p>Enter one line description</p>
+          /> */}
+          {/* <p>Enter one line description</p>
           <input
             type="text"
             value={desc}
             onChange={(e) => setDesc(e.target.value)}
             placeholder="enter one line desc"
-          />
+          /> */}
           <p>Enter complete description</p>
           <textarea
             placeholder="Enter the complete description"
@@ -277,7 +329,7 @@ function InputProducts() {
           <p>Status of the stock</p>
           <input
             type="text"
-            placeholder="Available / outOfStock"
+            placeholder="Available / outOfStock / NewArrival"
             value={status}
             onChange={(e) => setStatus(e.target.value)}
           />
@@ -298,12 +350,12 @@ function InputProducts() {
             <strong>Price: </strong>
             {price}
           </p>
-          <p>
+          {/* <p>
             <strong>Rating:</strong> {rating}
           </p>
           <p>
             <strong>Desc:</strong> {desc}
-          </p>
+          </p> */}
           <p>
             <strong>Status:</strong>
             {status}
@@ -348,14 +400,45 @@ function InputProducts() {
       {/* delete any product */}
       <div className="delete__product">
         <h2>Delete the product</h2>
-        <p>Enter the product name to delete: </p>
+        <p>Enter the complete product name to delete: </p>
         <div className="delete__product__container">
           <input
             type="text"
             onChange={(e) => setDeleteProduct(e.target.value)}
             value={deleteProduct}
           ></input>
-          <button onClick={handleDeleteProduct}>Delete Product</button>
+          <button onClick={handleDeleteProduct}>Search Product</button>
+        </div>
+        <div className="delete__products__container__list">
+          {deleteProductList && (
+            <div className="delete__products__list">
+              {deleteProductList.map((item) => (
+                <div key={item.id} className="single__delete__product">
+                  <img
+                    src={item.image[0]}
+                    alt=""
+                    style={{ width: "120px", height: "120px" }}
+                  />
+                  <div className="delete__product__details">
+                    <p>Product name: {item.productName}</p>
+                    <p>Price: {item.price}</p>
+                    <p>Product ID: {item.id}</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      console.log(
+                        "The item that has to be deleted is : ",
+                        item.id
+                      ),
+                        deleteItem(item.id);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
       <div className="edit__product__status">

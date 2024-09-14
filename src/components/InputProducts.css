@@ -86,7 +86,7 @@
 .delete__product {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
 }
 .delete__product__container {
@@ -101,13 +101,13 @@
   border: none;
   border-radius: 5px;
   padding: 0 1rem;
-  font-size: 1.2rem;
+  font-size: 1.2rem; 
   outline: none;
   background-color: lightgray;
   color: black;
 }
 .delete__product__container > button {
-  width: 50%;
+  width: 70%;
   height: 3rem;
   border: none;
   border-radius: 5px;
@@ -175,6 +175,34 @@
 .delete__product__container > button:hover {
   background-color: #a34920;
   color: #fff;
+}
+.delete__products__container__list{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.delete__products__list{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-direction: column;
+  margin-top: 20px;
+}
+.single__delete__product{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+.delete__product__details{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
 }
 @media (min-width: 200px) and (max-width: 480px) {
   .input__products {
