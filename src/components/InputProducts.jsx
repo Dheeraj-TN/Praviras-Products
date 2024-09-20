@@ -37,9 +37,18 @@ function InputProducts() {
   const earringRef = collection(db, "Earrings");
   const braceletRef = collection(db, "Bracelet");
   const clipsPinsRef = collection(db, "ClipsPins");
-  const handleSelectChange = (e) => {
-    setCategory(e.target.value);
+  // const handleSelectChange = (e) => {
+  //   setCategory(e.target.value);
+  // };
+  const handleCheckBoxChange = (e) => {
+    const { value, checked } = event.target;
+
+    setCategory((prev) =>
+      checked ? [...prev, value] : prev.filter((item) => item !== value)
+    );
   };
+  console.log("The categories to be inserted: ", category);
+
   const handleStatusChange = (e) => {
     setEditStatus(e.target.value);
   };
@@ -191,26 +200,29 @@ function InputProducts() {
       if (loading) {
         toast.loading("Alomst done...");
       }
-      await setDoc(doc(db, category, uniqueId), {
-        image: imageURLs,
-        video: videoDownloadURL,
-        productName: productName,
-        price: price,
-        // rating: rating,
-        // desc: desc,
-        completeDesc: completeDesc,
-        status: status,
-        category: category,
-        uniqueId: uniqueId,
-        timestamp: new Date(),
-      });
-      await setDoc(doc(db, "Products", uniqueId), {
-        productType: category,
-        productName: productName,
-        price: price,
-        uniqueId: uniqueId,
-        timestamp: new Date(),
-      });
+      for (const productCategory of category) {
+        await setDoc(doc(db, productCategory, uniqueId), {
+          image: imageURLs,
+          video: videoDownloadURL,
+          productName: productName,
+          price: price,
+          // rating: rating,
+          // desc: desc,
+          completeDesc: completeDesc,
+          status: status,
+          category: productCategory,
+          uniqueId: uniqueId,
+          timestamp: new Date(),
+        });
+
+        await setDoc(doc(db, "Products", uniqueId), {
+          productType: productCategory,
+          productName: productName,
+          price: price,
+          uniqueId: uniqueId,
+          timestamp: new Date(),
+        });
+      }
       setLoading(false);
       toast.success("Uploaded successfully");
       setImgfiles([]);
@@ -319,13 +331,55 @@ function InputProducts() {
             rows={5}
           />
           <p>Select the category</p>
-          <select multiple value={category} onChange={handleSelectChange}>
+          {/* <select multiple value={category} onChange={handleSelectChange}>
             <option value="NewArrivals">NewArrivals</option>
             <option value="Necklases">Necklases</option>
             <option value="Earrings">Earrings</option>
             <option value="Bracelet">Bracelet</option>
             <option value="ClipsPins">ClipsPins</option>
-          </select>
+          </select> */}
+          <div className="product-categories">
+            <label>
+              <input
+                type="checkbox"
+                value="NewArrivals"
+                onChange={handleCheckBoxChange}
+              />
+              NewArrivals
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                value="Necklases"
+                onChange={handleCheckBoxChange}
+              />
+              Necklaces
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                value="Earrings"
+                onChange={handleCheckBoxChange}
+              />
+              Earrings
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                value="Bracelet"
+                onChange={handleCheckBoxChange}
+              />
+              Bracelets
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                value="ClipsPins"
+                onChange={handleCheckBoxChange}
+              />
+              ClipsPins
+            </label>
+          </div>
           <p>Status of the stock</p>
           <input
             type="text"

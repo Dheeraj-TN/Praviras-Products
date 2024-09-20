@@ -1,0 +1,206 @@
+.checkoutPage__props {
+    display: flex;
+    margin-bottom: 50px;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .checkoutPage__props__img {
+    width: 200px;
+    height: 200px;
+  }
+  .checkoutPage__props__info {
+    margin-top: -20px;
+    padding-left: 20px;
+  }
+  .checkoutPage__props__info h2 {
+    font-size: 25px;
+    font-weight: 500;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .checkoutPage__props__info p {
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .checkoutPage__props__info > button {
+    padding: 16px 20px;
+    font-size: 1rem;
+    color: #fff;
+    width: 280px;
+    background-color: #ba704f;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: transform 100ms ease-in;
+  }
+  
+  .checkoutPage__props__title {
+    font-size: 17px;
+    font-weight: 800;
+  }
+  .checkpout__props__priceRating {
+    display: flex;
+    justify-content: space-between;
+  }
+  .product__rating {
+    display: flex;
+  }
+  .quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .quantity input {
+    width: 40px;
+    height: 30px;
+    text-align: center;
+    border: 1px solid #ba704f;
+    border-radius: 5px;
+    outline: none;
+    background-color: transparent;
+    font-size: 17px;
+    font-weight: 500;
+    color: rgb(161, 90, 24);
+  }
+  .quantity button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ba704f;
+    border-radius: 99px;
+    outline: none;
+    background-color: transparent;
+    font-size: 17px;
+    font-weight: 600;
+    color: rgb(161, 90, 24);
+    cursor: pointer;
+  }
+  @media (min-width: 200px) and (max-width: 480px) {
+    .checkoutPage__props {
+      gap: 10px;
+      justify-content: flex-start;
+    }
+    .checkoutPage__props__img {
+      width: 120px;
+      height: 120px;
+    }
+    .checkoutPage__props__info {
+      padding: 0;
+      margin-top: -18px;
+    }
+    .checkoutPage__props__info h2 {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .checkoutPage__props__info p {
+      font-size: 14px;
+    }
+    .checkoutPage__props__priceRating {
+      display: flex;
+      justify-content: space-between;
+    }
+    .checkoutPage__props__info button {
+      width: 100%;
+      height: 35px;
+      padding: 10px 14px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .quantity input {
+      width: 30px;
+      font-size: 15px;
+    }
+    .quantity button {
+      width: 25px;
+      height: 25px;
+      font-size: 15px;
+      padding: 0;
+    }
+  }
+  @media (min-width: 481px) and (max-width: 768px) {
+    .checkoutPage__props {
+      gap: 10px;
+      justify-content: flex-start;
+      margin-bottom: 60px;
+    }
+    .checkoutPage__props img {
+      width: 200px;
+      height: 200px;
+      /* object-fit: contain; */
+    }
+    .checkoutPage__props__info {
+      padding: 0;
+      margin-top: -10px;
+    }
+    .checkoutPage__props__info h2 {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .checkoutPage__props__info p {
+      font-size: 15px;
+    }
+    .checkoutPage__props__priceRating {
+      display: flex;
+      justify-content: space-between;
+    }
+    .checkoutPage__props__info button {
+      width: 100%;
+      height: 40px;
+      padding: 10px 14px;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .quantity button {
+      width: 35px;
+      height: 35px;
+      font-size: 17px;
+      padding: 0;
+    }
+  }
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .checkoutPage__props {
+      gap: 2rem;
+    }
+    .checkoutPage__props img {
+      width: 300px;
+      height: 300px;
+    }
+    .checkoutPage__props__info {
+      padding: 0;
+      margin-top: 10px;
+    }
+    .checkoutPage__props__info h2 {
+      font-size: 22px;
+    }
+    .checkoutPage__props__info p {
+      font-size: 17px;
+    }
+    .checkoutPage__props__priceRating {
+      display: flex;
+      justify-content: space-between;
+    }
+    .checkoutPage__props__info button {
+      width: 100%;
+      height: 40px;
+      padding: 10px 14px;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .quantity button {
+      width: 35px;
+      height: 35px;
+      font-size: 17px;
+      padding: 0;
+    }
+  }
+  
