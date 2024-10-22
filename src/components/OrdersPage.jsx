@@ -5,13 +5,16 @@ import moment from "moment";
 import "./OrdersPage.css";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import { useState } from "react";
 function OrdersPage({ order }) {
+  const [status, setStatus] = useState("Pending");
   const changeStatus = async () => {
     const docRef = doc(db, "Orders", order.id);
     console.log("Order id: ", order.id);
     await updateDoc(docRef, {
       status: "Delivered",
     });
+    setStatus("Delivered");
   };
   return (
     <div
@@ -40,18 +43,26 @@ function OrdersPage({ order }) {
         </div>
       </div>
       <div>
-        <button
-          style={{
-            marginTop: 0,
-            marginBottom: "20px",
-            border: "1px solid white",
-            backgroundColor: "#f5f5f5",
-            color: "black",
-          }}
-          onClick={changeStatus}
-        >
-          Change status to &quot; Delivered &quot;
-        </button>
+        {status === "Pending" ? (
+          <button
+            style={{
+              marginTop: 0,
+              marginBottom: "20px",
+              backgroundColor: "#ba704f",
+              color: "white",
+              cursor: "pointer",
+              borderRadius: "5px",
+              border: "none",
+              padding: "10px",
+              fontSize: "15px",
+            }}
+            onClick={changeStatus}
+          >
+            Change status to &quot; Delivered &quot;
+          </button>
+        ) : (
+          ""
+        )}
       </div>
       {order.data.products?.map((item) => (
         <OrdersPageProps

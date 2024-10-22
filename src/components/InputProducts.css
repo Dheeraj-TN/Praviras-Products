@@ -1,17 +1,22 @@
 .input__products {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 90%;
   padding: 20px;
+  border: 1px solid black;
 }
 .input__products > form > p {
   margin-bottom: -20px;
+  font-size: 20px;
 }
 .input__products form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 2rem;
+  width: 100%;
 }
 .input__products form input {
   width: 90%;
@@ -35,8 +40,8 @@
   color: black;
 }
 .input__products form select {
-  width: 100%;
-  height: auto;
+  width: 50%;
+  height: 3rem;
   border: none;
   border-radius: 5px;
   padding: 0 1rem;
@@ -45,30 +50,39 @@
   background-color: lightgray;
   color: black;
 }
-.input__products form button {
-  width: 100%;
+.upload__button {
+  width: 60%;
   height: 3rem;
   border: none;
   border-radius: 5px;
   padding: 0 1rem;
-  font-size: 1.2rem;
+  font-size: 20px;
+  font-weight: 500;
   outline: none;
   background-color: #ba704f;
   color: #fff;
   cursor: pointer;
+  align-self: center;
+  margin-top: 40px;
+}
+.entered__details {
+  border-top: 1px solid black;
+  border-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-top: 40px;
+  width: 100%;
 }
 .entered__details > h3 {
   align-self: center;
   margin-bottom: 30px;
 }
-.entered__details {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
+
 .entered__details p {
   text-align: left;
+  font-size: 20px;
 }
 .file__names {
   margin-top: 20px;
@@ -88,6 +102,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 40px;
+  border: 1px solid black;
+  width: 90%;
+  padding-inline: 20px;
 }
 .delete__product__container {
   display: flex;
@@ -121,16 +139,20 @@
 .edit__product__status {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  margin-top: 100px;
+  margin-top:40px;
+  border: 1px solid black;
+  width: 90%;
+  padding:20px;
 }
 .edit__product__status__container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   gap: 2rem;
+  width: 100%;
 }
 .edit__product__productName {
   display: flex;
@@ -157,16 +179,21 @@
   margin-top: -20px;
 }
 .edit__product__status__container > button {
-  width: 100%;
   height: 3rem;
+  width: 20%;
   border: none;
   border-radius: 5px;
   padding: 0 1rem;
-  font-size: 1rem;
+  font-size: 20px;
+  font-weight: 500;
   outline: none;
   background-color: #ba704f;
   color: #fff;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
 }
 .edit__product__status__container > button:hover {
   background-color: #a34920;
@@ -222,7 +249,11 @@
   align-items: flex-start;
   justify-content: flex-start;
   transform: scale(1.5);
+  background-color: #f5f5f5;
+  border: 2px solid white;
+  color: white;
 }
+
 @media (min-width: 200px) and (max-width: 480px) {
   .input__products {
     padding: 10px;

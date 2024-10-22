@@ -1,16 +1,9 @@
 import { useNavigate } from "react-router-dom";
-
+import "./Home.css";
 function Home() {
   const navigate = useNavigate();
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: "1rem",
-      }}
-    >
+    <div className="home">
       <button onClick={() => navigate("/productsPage")}>
         Input and Edit products Page
       </button>

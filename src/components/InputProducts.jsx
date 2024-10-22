@@ -37,6 +37,7 @@ function InputProducts() {
   const earringRef = collection(db, "Earrings");
   const braceletRef = collection(db, "Bracelet");
   const clipsPinsRef = collection(db, "ClipsPins");
+
   // const handleSelectChange = (e) => {
   //   setCategory(e.target.value);
   // };
@@ -47,7 +48,7 @@ function InputProducts() {
       checked ? [...prev, value] : prev.filter((item) => item !== value)
     );
   };
-  console.log("The categories to be inserted: ", category);
+  // console.log("The categories to be inserted: ", category);
 
   const handleStatusChange = (e) => {
     setEditStatus(e.target.value);
@@ -101,6 +102,29 @@ function InputProducts() {
 
     if (deleteProduct.includes("Bracelet".toLowerCase())) {
       const q = query(braceletRef);
+      const splitProductName = deleteProduct.split(" ")[0];
+      onSnapshot(q, (snapshot) => {
+        const data = snapshot.docs
+          .map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+          .filter((item) => item.productName.includes(splitProductName));
+        setDeleteProductList(data);
+      });
+      return;
+    }
+    if (
+      deleteProduct.includes(
+        "Clips" ||
+          "Center" ||
+          "Handmade" ||
+          "Saree" ||
+          "Hair" ||
+          "Pins".toLowerCase()
+      )
+    ) {
+      const q = query(clipsPinsRef);
       const splitProductName = deleteProduct.split(" ")[0];
       onSnapshot(q, (snapshot) => {
         const data = snapshot.docs
@@ -173,33 +197,38 @@ function InputProducts() {
   };
   const upload = async (e) => {
     e.preventDefault();
+    if (!productName || !price || !status || !completeDesc || !category) {
+      toast.error("Fill all the fields");
+      return;
+    }
+    if (imgFiles.length === 0) {
+      toast.error("Select atleast one image");
+      return;
+    }
+    if (category.length === 0) {
+      toast.error("Select atleast one category");
+      return;
+    }
     const uniqueId = uuidv4();
-    console.log("Unique id: ", uniqueId);
+    setLoading(true);
+
+    const toastId = toast.loading("Uploading....");
+
     const imageURLs = [];
     let videoDownloadURL = "";
-    // get the url of video
-    setLoading(true);
-    if (loading) {
-      toast.loading("Hold on ...");
-    }
-    // toast.loading("Hold on...");
-    if (videoFile) {
-      const storageRef = ref(storage, `${category}/${videoFile.name}`);
-      await uploadBytes(storageRef, videoFile);
-      videoDownloadURL = await getDownloadURL(storageRef);
-    }
-    for (const image of imgFiles) {
-      const storageRef = ref(storage, `${category}/${image.name}`);
-      await uploadBytes(storageRef, image);
-      const downloadURL = await getDownloadURL(storageRef);
-      imageURLs.push(downloadURL);
-    }
-    setLoading(false);
-    if (imageURLs.length === imgFiles.length) {
-      setLoading(true);
-      if (loading) {
-        toast.loading("Alomst done...");
+    try {
+      if (videoFile) {
+        const storageRef = ref(storage, `${category}/${videoFile.name}`);
+        await uploadBytes(storageRef, videoFile);
+        videoDownloadURL = await getDownloadURL(storageRef);
       }
+      for (const image of imgFiles) {
+        const storageRef = ref(storage, `${category}/${image.name}`);
+        await uploadBytes(storageRef, image);
+        const downloadURL = await getDownloadURL(storageRef);
+        imageURLs.push(downloadURL);
+      }
+
       for (const productCategory of category) {
         await setDoc(doc(db, productCategory, uniqueId), {
           image: imageURLs,
@@ -215,29 +244,32 @@ function InputProducts() {
           timestamp: new Date(),
         });
 
-        await setDoc(doc(db, "Products", uniqueId), {
-          productType: productCategory,
-          productName: productName,
-          price: price,
-          uniqueId: uniqueId,
-          timestamp: new Date(),
-        });
+        // await setDoc(doc(db, "Products", uniqueId), {
+        //   productType: productCategory,
+        //   productName: productName,
+        //   price: price,
+        //   uniqueId: uniqueId,
+        //   timestamp: new Date(),
+        // });
       }
-      setLoading(false);
-      toast.success("Uploaded successfully");
+      toast.dismiss(toastId);
       setImgfiles([]);
       setImgfileNames([]);
       setVideoFile(null);
       setVideoFileName("");
       setProductName("");
       setPrice("");
-      // setRating("");
-      // setDesc("");
       setStatus("");
       setCompleteDesc("");
       setCategory([]);
       setVideoFileName("");
       setImgfileNames("");
+      toast.success("Uploaded successfully");
+    } catch (error) {
+      console.log("Error: ", error);
+      toast.dismiss(toastId);
+      setLoading(false);
+      toast.error("Error in uploading");
     }
   };
   const deleteItem = (id) => {
@@ -293,7 +325,7 @@ function InputProducts() {
     <>
       <div className="input__products">
         <Toaster />
-        <h2>Enter the product details to be uploaded </h2>
+        <h3>Enter the product details to be uploaded </h3>
         <form>
           <p>Product name:</p>
           <input
@@ -331,13 +363,7 @@ function InputProducts() {
             rows={5}
           />
           <p>Select the category</p>
-          {/* <select multiple value={category} onChange={handleSelectChange}>
-            <option value="NewArrivals">NewArrivals</option>
-            <option value="Necklases">Necklases</option>
-            <option value="Earrings">Earrings</option>
-            <option value="Bracelet">Bracelet</option>
-            <option value="ClipsPins">ClipsPins</option>
-          </select> */}
+
           <div className="product-categories">
             <label>
               <input
@@ -381,20 +407,25 @@ function InputProducts() {
             </label>
           </div>
           <p>Status of the stock</p>
-          <input
+          {/* <input
             type="text"
             placeholder="Available / outOfStock / NewArrival"
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-          />
+          /> */}
+          <select onChange={(e) => setStatus(e.target.value)}>
+            <option value="Available">Available</option>
+            <option value="outOfStock">Out of Stock</option>
+            <option value="NewArrival">New Arrival</option>
+          </select>
           <p>Place the images</p>
           <input type="file" multiple onChange={handleImageChange} />
           <p>Place the video</p>
           <input type="file" onChange={handleVideoChange} />
-          <button onClick={upload}>Upload Files</button>
+
           {/* <button onClick={uploadData}>Upload</button> */}
         </form>
-
+        {/* review of what all was enetered */}
         <div className="entered__details">
           <h3>Verify the Entered Details</h3>
           <p>
@@ -418,7 +449,7 @@ function InputProducts() {
             <strong>Complete Desc:</strong> {completeDesc}
           </p>
           <p>
-            <strong>Category:</strong> {category}
+            <strong>Category:</strong> {category.join(", ")}
           </p>
           <div className="file__names">
             <p>
@@ -430,11 +461,11 @@ function InputProducts() {
                   <li key={index}>{fileName}</li>
                 ))}
             </ul>
-            <ul>
-              <li>{videoFileName}</li>
+            <ul style={{ listStyle: "none" }}>
+              <li style={{ listStyle: "none" }}>{videoFileName}</li>
             </ul>
           </div>
-          <div className="image__preview">
+          <div className="image__preview" style={{ border: "1px solid black" }}>
             {imgFiles &&
               imgFiles.map((image, index) => (
                 <img
@@ -450,10 +481,13 @@ function InputProducts() {
             </video>
           </div>
         </div>
+        <button onClick={upload} disabled={loading} className="upload__button">
+          Upload
+        </button>
       </div>
       {/* delete any product */}
       <div className="delete__product">
-        <h2>Delete the product</h2>
+        <h3>Delete product</h3>
         <p>Enter the complete product name to delete: </p>
         <div className="delete__product__container">
           <input
@@ -495,8 +529,9 @@ function InputProducts() {
           )}
         </div>
       </div>
+      {/* edit status */}
       <div className="edit__product__status">
-        <h2>Edit the product status</h2>
+        <h3>Edit the product status</h3>
 
         <div className="edit__product__status__container">
           <div className="edit__product__productName">
