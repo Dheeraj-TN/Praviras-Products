@@ -37,7 +37,7 @@ function InputProducts() {
   const earringRef = collection(db, "Earrings");
   const braceletRef = collection(db, "Bracelet");
   const clipsPinsRef = collection(db, "ClipsPins");
-
+  const fingerRingsRef = collection(db, "FingerRings");
   // const handleSelectChange = (e) => {
   //   setCategory(e.target.value);
   // };
@@ -244,13 +244,13 @@ function InputProducts() {
           timestamp: new Date(),
         });
 
-        // await setDoc(doc(db, "Products", uniqueId), {
-        //   productType: productCategory,
-        //   productName: productName,
-        //   price: price,
-        //   uniqueId: uniqueId,
-        //   timestamp: new Date(),
-        // });
+        await setDoc(doc(db, "Products", uniqueId), {
+          productType: productCategory,
+          productName: productName,
+          price: price,
+          uniqueId: uniqueId,
+          timestamp: new Date(),
+        });
       }
       toast.dismiss(toastId);
       setImgfiles([]);
@@ -405,14 +405,16 @@ function InputProducts() {
               />
               ClipsPins
             </label>
+            <label>
+              <input
+                type="checkbox"
+                value="FingerRings"
+                onChange={handleCheckBoxChange}
+              />
+              FingerRings
+            </label>
           </div>
           <p>Status of the stock</p>
-          {/* <input
-            type="text"
-            placeholder="Available / outOfStock / NewArrival"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          /> */}
           <select onChange={(e) => setStatus(e.target.value)}>
             <option value="Available">Available</option>
             <option value="outOfStock">Out of Stock</option>
