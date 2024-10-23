@@ -3,9 +3,9 @@
 import OrdersPageProps from "./OrdersPageProps";
 import moment from "moment";
 import "./OrdersPage.css";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 function OrdersPage({ order }) {
   const [status, setStatus] = useState("Pending");
   const changeStatus = async () => {
@@ -14,8 +14,18 @@ function OrdersPage({ order }) {
     await updateDoc(docRef, {
       status: "Delivered",
     });
-    setStatus("Delivered");
   };
+  const getStatus = async () => {
+    const docRef = doc(db, "Orders", order.id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      setStatus(docSnap.data().status);
+    }
+  };
+  useEffect(() => {
+    getStatus();
+  });
+
   return (
     <div
       className="order"
@@ -29,21 +39,19 @@ function OrdersPage({ order }) {
         Order Total: ₹{order.data.totalAmount}
       </h3>
       <div className="order__details">
-        <p className="order__id">
-          <small>Order ID: {order.id}</small>
-        </p>
+        <p>Order ID: {order.id}</p>
         <p>
-          Order Placed at:
+          Order Placed at:{" "}
           {moment(order.data.created.toDate()).format(
             "ddd, DD MMM YYYY h:mm A"
           )}
         </p>
         <div className="order__status">
-          <p>Status : {order.data.status}</p>
+          <p>Status: {status}</p>
         </div>
       </div>
       <div>
-        {status === "Pending" ? (
+        {status === "In Progress" ? (
           <button
             style={{
               marginTop: 0,

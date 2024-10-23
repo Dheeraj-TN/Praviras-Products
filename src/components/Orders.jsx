@@ -33,10 +33,12 @@ function Orders() {
   }, []);
 
   return (
-    <div style={{ marginLeft: "20px" }}>
-      {orders.map((order) => (
-        <OrdersPage order={order} key={order.id} />
-      ))}
+    <div>
+      {orders.length === 0 ? (
+        <h3>No Orders yet....</h3>
+      ) : (
+        orders.map((order) => <OrdersPage order={order} key={order.id} />)
+      )}
     </div>
   );
 }
