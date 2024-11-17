@@ -4,9 +4,11 @@ import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db } from "../firebase";
 import { useEffect, useState } from "react";
 import OrdersPage from "./OrdersPage";
+import { HomeOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 function Orders() {
   const [orders, setOrders] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -34,6 +36,8 @@ function Orders() {
 
   return (
     <div>
+      <HomeOutlined className="home__icon" onClick={() => navigate("/")} />
+      <h1>Orders</h1>
       {orders.length === 0 ? (
         <h3>No Orders yet....</h3>
       ) : (

@@ -6,6 +6,7 @@ import "./OrdersPage.css";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useEffect, useState } from "react";
+
 function OrdersPage({ order }) {
   const [status, setStatus] = useState("Pending");
   const changeStatus = async () => {

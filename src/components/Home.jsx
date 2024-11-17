@@ -5,9 +5,12 @@ function Home() {
   return (
     <div className="home">
       <button onClick={() => navigate("/productsPage")}>
-        Input and Edit products Page
+        Input and Delete products Page
       </button>
       <button onClick={() => navigate("/ordersPage")}>Orders Page</button>
+      <button onClick={() => navigate("/editProductsPage")}>
+        Edit Product Details
+      </button>
     </div>
   );
 }

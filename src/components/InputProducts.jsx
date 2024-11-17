@@ -16,6 +16,8 @@ import { getDownloadURL, uploadBytes, ref } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import "./InputProducts.css";
 import toast, { Toaster } from "react-hot-toast";
+import { HomeOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 function InputProducts() {
   const [imgFiles, setImgfiles] = useState([]);
   const [imgFileNames, setImgfileNames] = useState([]);
@@ -38,6 +40,7 @@ function InputProducts() {
   const braceletRef = collection(db, "Bracelet");
   const clipsPinsRef = collection(db, "ClipsPins");
   const fingerRingsRef = collection(db, "FingerRings");
+  const navigate = useNavigate();
   // const handleSelectChange = (e) => {
   //   setCategory(e.target.value);
   // };
@@ -273,7 +276,11 @@ function InputProducts() {
     }
   };
   const deleteItem = (id) => {
-    if (deleteProduct.includes("Bracelet")) {
+    if (
+      deleteProduct.includes("Bracelet".toLowerCase()) ||
+      deleteProduct.includes("Kada".toLowerCase()) ||
+      deleteProduct.includes("Stainless Steel Bracelet".toLowerCase())
+    ) {
       const q = query(braceletRef, where("uniqueId", "==", id));
       const data = getDocs(q);
       data.then((snapshot) => {
@@ -285,7 +292,12 @@ function InputProducts() {
         });
       });
     }
-    if (deleteProduct.includes("Necklace") || deleteProduct.includes("Chain")) {
+    if (
+      deleteProduct.includes("Necklace".toLowerCase()) ||
+      deleteProduct.includes("chain".toLowerCase()) ||
+      deleteProduct.includes("pendant".toLowerCase()) ||
+      deleteProduct.includes("layered".toLowerCase())
+    ) {
       const q = query(necklaceRef, where("uniqueId", "==", id));
       const data = getDocs(q);
       data.then((snapshot) => {
@@ -297,7 +309,12 @@ function InputProducts() {
         });
       });
     }
-    if (deleteProduct.includes("Earrings")) {
+    if (
+      deleteProduct.includes("Hoops".toLowerCase()) ||
+      deleteProduct.includes("Studs".toLowerCase()) ||
+      deleteProduct.includes("Statement".toLowerCase()) ||
+      deleteProduct.includes("Traditional".toLowerCase())
+    ) {
       const q = query(earringRef, where("uniqueId", "==", id));
       const data = getDocs(q);
       data.then((snapshot) => {
@@ -309,7 +326,35 @@ function InputProducts() {
         });
       });
     }
-
+    if (
+      deleteProduct.includes("Center".toLowerCase()) ||
+      deleteProduct.includes("Handmade".toLowerCase()) ||
+      deleteProduct.includes("Saree".toLowerCase()) ||
+      deleteProduct.includes("Hair".toLowerCase())
+    ) {
+      const q = query(clipsPinsRef, where("uniqueId", "==", id));
+      const data = getDocs(q);
+      data.then((snapshot) => {
+        snapshot.forEach((doc) => {
+          console.log(doc.ref);
+          deleteDoc(doc.ref);
+          toast.success("Product Deleted successfully");
+          console.log("Product deleted from db");
+        });
+      });
+    }
+    if (deleteProduct.includes("Finger".toLowerCase())) {
+      const q = query(fingerRingsRef, where("uniqueId", "==", id));
+      const data = getDocs(q);
+      data.then((snapshot) => {
+        snapshot.forEach((doc) => {
+          console.log(doc.ref);
+          deleteDoc(doc.ref);
+          toast.success("Product Deleted successfully");
+          console.log("Product deleted from db");
+        });
+      });
+    }
     const q2 = query(collection(db, "Products"), where("uniqueId", "==", id));
     const data2 = getDocs(q2);
     data2.then((snapshot) => {
@@ -325,6 +370,7 @@ function InputProducts() {
     <>
       <div className="input__products">
         <Toaster />
+        <HomeOutlined className="home__icon" onClick={() => navigate("/")} />
         <h3>Enter the product details to be uploaded </h3>
         <form>
           <p>Product name:</p>
@@ -437,12 +483,6 @@ function InputProducts() {
             <strong>Price: </strong>
             {price}
           </p>
-          {/* <p>
-            <strong>Rating:</strong> {rating}
-          </p>
-          <p>
-            <strong>Desc:</strong> {desc}
-          </p> */}
           <p>
             <strong>Status:</strong>
             {status}
@@ -532,7 +572,7 @@ function InputProducts() {
         </div>
       </div>
       {/* edit status */}
-      <div className="edit__product__status">
+      {/* <div className="edit__product__status">
         <h3>Edit the product status</h3>
 
         <div className="edit__product__status__container">
@@ -568,7 +608,7 @@ function InputProducts() {
           </div>
           <button onClick={handleProductStatus}>Edit Status</button>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
